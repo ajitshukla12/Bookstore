@@ -1,4 +1,4 @@
-name: Run Django Server
+name: Run Django Tests
 on:
   push:
     branches: [main]
@@ -35,7 +35,7 @@ jobs:
           python3 manage.py migrate
 
 
-      - name: Run Django Tests
+      - name: Run Django test
         run: |
           source venv/bin/activate
           python3 manage.py test
