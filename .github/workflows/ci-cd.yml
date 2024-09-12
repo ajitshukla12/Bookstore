@@ -19,12 +19,25 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies
+      - name: Upgrade pip and install virtualenv
         run: |
           python3 -m pip install --upgrade pip
-          python3 -m venv venv
+          python3 -m pip install virtualenv
+
+      - name: Create virtual environment
+        run: |
+          python3 -m virtualenv venv
+          
+      - name: Install dependencies
+        run: |
           . venv/bin/activate
+          python3 -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          
+      - name: Check if Django is installed
+        run: |
+          . venv/bin/activate
+          python3 -m django --version
 
       - name: Run migrations
         run: |
