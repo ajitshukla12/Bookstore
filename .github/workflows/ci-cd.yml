@@ -51,7 +51,7 @@ jobs:
 
 
       - name: Deploy to EC2
-        if: success() # Only deploy if tests and migrations are successful
+        if: success() 
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.EC2_PRIVATE_KEY }}
