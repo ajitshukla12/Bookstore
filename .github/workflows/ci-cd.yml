@@ -51,7 +51,7 @@ jobs:
 
       - name: Dry Run Deployment
         run: |
-          ssh -i /home/ubuntu/rsa.pem ubuntu@54.81.158.3 'bash -s' < /home/ubuntu/store/Bookstore/deploy.sh true
+          ssh -i /home/ubuntu/rsa.pem ubuntu@54.81.158.3 'bash -s < /home/ubuntu/store/Bookstore/deploy.sh' 
         env:
           ACTIONS_RUNNER_DEBUG: true
 
