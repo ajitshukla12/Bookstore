@@ -49,28 +49,20 @@ jobs:
           . venv/bin/activate
           python3 manage.py test
 
-      - name: Add server to known hosts
-            run: |
-                echo "${{ secrets.EC2_PRIVATE_KEY }}" > /home/ubuntu/rsa.pem
-                chmod 600 /home/ubuntu/rsa.pem
-                mkdir -p ~/.ssh
-                ssh-keyscan -H 54.81.158.3 >> ~/.ssh/known_hosts
-            env:
-                ACTIONS_RUNNER_DEBUG: true
-
-      - name: Dry Run Deployment
+      - name: Prepare for Deployment
         run: |
-          ssh -i /home/ubuntu/rsa.pem ubuntu@54.81.158.3 'bash -s < /home/ubuntu/store/Bookstore/deploy.sh' 
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 54.81.158.3 >> ~/.ssh/known_hosts
         env:
           ACTIONS_RUNNER_DEBUG: true
 
-      # - name: Deploy to EC2
-      #   if: success() 
-      #   uses: webfactory/ssh-agent@v0.5.3
-      #   with:
-      #     ssh-private-key: ${{ secrets.EC2_PRIVATE_KEY }}
-      #   run: |
-      #     ssh -o StrictHostKeyChecking=no ubuntu@54.81.158.3 << 'EOF'
-      #       bash /home/ubuntu/store/Bookstore/deploy.sh
-      #     EOF
+      - name: Deploy to EC2
+        if: success() # Only deploy if tests and migrations are successful
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@54.81.158.3 'bash -s' < /home/ubuntu/store/Bookstore/deploy.sh
+        env:
+          ACTIONS_RUNNER_DEBUG: true
+
           
