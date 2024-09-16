@@ -59,7 +59,7 @@ jobs:
           ACTIONS_RUNNER_DEBUG: true
 
       - name: Deploy to EC2
-        if: success() # Only deploy if tests and migrations are successful
+        if: success() 
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@54.81.158.3 'bash -s < /home/ubuntu/store/Bookstore/deploy.sh'
         env:
