@@ -51,7 +51,7 @@ jobs:
 
       - name: Dry Run Deployment
         run: |
-          ssh -i ${{ secrets.EC2_SSH_KEY }} ubuntu@54.81.158.3 'bash -s' < /home/ubuntu/store/Bookstore/deploy.sh true
+          ssh -i ${{ secrets.EC2_PRIVATE_KEY }} ubuntu@54.81.158.3 'bash -s' < /home/ubuntu/store/Bookstore/deploy.sh true
         env:
           ACTIONS_RUNNER_DEBUG: true
 
