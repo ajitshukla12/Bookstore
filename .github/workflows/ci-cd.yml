@@ -48,4 +48,15 @@ jobs:
         run: |
           . venv/bin/activate
           python3 manage.py test
+
+
+      - name: Deploy to EC2
+        if: success() # Only deploy if tests and migrations are successful
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.EC2_PRIVATE_KEY }}
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@54.81.158.3 << 'EOF'
+            bash /home/ubuntu/store/Bookstore/deploy.sh
+          EOF
           
