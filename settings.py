@@ -11,9 +11,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 LOGIN_REDIRECT_URL = "/"
 
-
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -92,14 +93,21 @@ DATABASES = {
 }
 
 
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',  # Change to your database engine if needed
-#         'NAME': 'books',  # Database name
-#         'USER': 'root',  # Database user
-#         'PASSWORD': 'Siddhant@15',  # Database password
-#         'HOST': 'localhost',  # Database host
+#         'NAME': os.getenv("DB_NAME"),
+#         'USER': os.getenv("DB_USER"),  # Database user
+#         'PASSWORD': os.getenv("PASSWORD"),  # Database password
+#         'HOST': os.getenv("DB_WRITER_HOST"),  # Database host
+#         'PORT': '3306',  # Database port
+#     },
+#     'replica': {
+#         'ENGINE': 'django.db.backends.mysql',  # Change to your database engine if needed
+#         'NAME': os.getenv("DB_NAME"),
+#         'USER': os.getenv("DB_USER"),  # Database user
+#         'PASSWORD': os.getenv("PASSWORD"),  # Database password
+#         'HOST': os.getenv("DB_READER_HOST"),  # Database host
 #         'PORT': '3306',  # Database port
 #     }
 # }
