@@ -52,8 +52,8 @@ jobs:
       - name: Prepare for Deployment
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          sudo chmod 600 ~/.ssh/id_rsa
+          echo "${{ secrets.EC2_PRIVATE_KEY }}" > ~/.ssh/id_rsa.pem
+          sudo chmod 600 ~/.ssh/id_rsa.pem
           ssh-keyscan -H 54.81.158.3 >> ~/.ssh/known_hosts
         env:
           ACTIONS_RUNNER_DEBUG: true
@@ -61,7 +61,7 @@ jobs:
       - name: Deploy to EC2
         if: success() 
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@54.81.158.3 'bash -s < /home/ubuntu/store/Bookstore/deploy.sh'
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa.pem ubuntu@54.81.158.3 'bash -s < /home/ubuntu/store/Bookstore/deploy.sh'
         env:
           ACTIONS_RUNNER_DEBUG: true
 
