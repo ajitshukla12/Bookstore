@@ -49,14 +49,19 @@ jobs:
           . venv/bin/activate
           python3 manage.py test
 
-
-      - name: Deploy to EC2
-        if: success() 
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.EC2_PRIVATE_KEY }}
+      - name: Dry Run Deployment
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@54.81.158.3 << 'EOF'
-            bash /home/ubuntu/store/Bookstore/deploy.sh
-          EOF
+          ssh -i ${{ secrets.EC2_SSH_KEY }} ubuntu@54.81.158.3 'bash -s' < deploy_script.sh true
+        env:
+          ACTIONS_RUNNER_DEBUG: true
+
+      # - name: Deploy to EC2
+      #   if: success() 
+      #   uses: webfactory/ssh-agent@v0.5.3
+      #   with:
+      #     ssh-private-key: ${{ secrets.EC2_PRIVATE_KEY }}
+      #   run: |
+      #     ssh -o StrictHostKeyChecking=no ubuntu@54.81.158.3 << 'EOF'
+      #       bash /home/ubuntu/store/Bookstore/deploy.sh
+      #     EOF
           
