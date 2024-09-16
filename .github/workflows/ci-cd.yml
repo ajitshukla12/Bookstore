@@ -63,5 +63,5 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_rsa.pem ubuntu@54.81.158.3 'bash -s < /home/ubuntu/store/Bookstore/deploy.sh'
         env:
-          ACTIONS_RUNNER_DEBUG: true
+          ACTIONS_RUNNER_DEBUG:true
 
